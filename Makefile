@@ -14,13 +14,12 @@ NAME			=	push_swap
 
 B_NAME			=	checker
 
-LIB				=	lib/
-INC				=	inc/
 SRC_DIR			=	src/
 OBJ_DIR			=	obj/
 B_OBJ_DIR		=	obj_bonus/
+
 INC_DIR			=	inc/
-LIBFT_DIR		=	$(LIB)libft/
+LIBFT_DIR		=	libft/
 
 SRC_FILES		=	main \
 					cleaners \
@@ -44,7 +43,7 @@ B_SRC_FILES		=	checker_bonus \
 					stack_utils_2 \
 					stack_utils_3 \
 
-STATIC_LIBS		=	$(LIB)libft/libft.a
+LIBFT			=	$(LIBFT_DIR)libft.a
 
 OBJS			=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
 B_OBJS			=	$(addprefix $(B_OBJ_DIR), $(addsuffix .o, $(B_SRC_FILES)))
@@ -52,7 +51,6 @@ B_OBJS			=	$(addprefix $(B_OBJ_DIR), $(addsuffix .o, $(B_SRC_FILES)))
 CC				=	gcc
 CFLAGS			=	-Wall -Wextra -Werror
 RM				=	rm -f
-AR				=	ar -r
 
 DEF_COLOR		=	\033[0;39m
 GREEN			=	\033[0;92m
@@ -60,19 +58,19 @@ YELLOW			=	\033[0;93m
 
 all:			$(NAME) $(B_NAME)
 
-$(NAME):		$(STATIC_LIBS) $(OBJ_DIR) $(OBJS)
-				@$(CC) $(CFLAGS) -L $(LIBFT_DIR) -lft $(OBJS) -o $@
+$(NAME):		$(LIBFT) $(OBJ_DIR) $(OBJS)
+				@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR) -lft -o $@
 				@echo "$(GREEN)Successfully created program: $(NAME) $(DEF_COLOR)"
 
-$(STATIC_LIBS):
+$(LIBFT):
 				@echo "$(YELLOW)Creating archives...$(DEF_COLOR)"
 				@make -C $(LIBFT_DIR)
 
 $(OBJ_DIR)%.o:	$(SRC_DIR)%.c | $(OBJ_DIR)
-				@$(CC) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
+				@$(CC) $(CFLAGS) -I$(INC_DIR) -I$(LIBFT_DIR)inc -c $< -o $@
 
 $(B_OBJ_DIR)%.o:	$(SRC_DIR)%.c | $(B_OBJ_DIR)
-					@$(CC) $(CFLAGS) -I $(INC_DIR) -c $< -o $@
+					@$(CC) $(CFLAGS) -I $(INC_DIR) -I$(LIBFT_DIR)inc -c $< -o $@
 
 $(OBJ_DIR):
 				@mkdir -p $@
@@ -81,7 +79,7 @@ $(B_OBJ_DIR):
 				@mkdir -p $@
 
 $(B_NAME):		$(STATIC_LIBS) $(B_OBJ_DIR) $(B_OBJS)
-				@$(CC) $(CFLAGS) -L $(LIBFT_DIR) -lft $(B_OBJS) -o $(B_NAME)
+				@$(CC) $(CFLAGS) $(B_OBJS) -L$(LIBFT_DIR) -lft -o $(B_NAME)
 				@echo "$(GREEN)Successfully created program: $(B_NAME)$(DEF_COLOR)"
 
 bonus:			$(B_NAME)

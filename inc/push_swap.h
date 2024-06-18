@@ -12,7 +12,7 @@
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
-# include "../lib/libft/inc/libft.h"
+# include "libft.h"
 # include <stdlib.h>
 # include <limits.h>
 # define SLICE (3)
