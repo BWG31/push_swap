@@ -37,7 +37,7 @@ optimized data sorting.* (extract from subject)
 1. Clone the repository:
    ```sh
    git clone https://github.com/BWG31/push_swap
-2. Compile the library:
+2. Compile the executable:
     ```sh
     make
 ## Usage
